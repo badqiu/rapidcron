@@ -1,0 +1,29 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.github.rapidcron.common.base.*;
+
+import static com.duowan.common.util.DateFormats.*;
+import static com.github.rapidcron.common.message.GlobalMessages.*;
+import static com.github.rapidcron.common.util.SpringMVCUtils.toModelMap;
+
+import static com.duowan.common.util.ValidationErrorsUtils.convert;
+import static com.duowan.common.beanutils.BeanUtils.copyProperties;
+import static com.duowan.common.util.holder.BeanValidatorHolder.validateWithException;
+
+import com.duowan.common.util.DateConvertUtil;
+import com.duowan.common.util.DateConvertUtil;
+import com.duowan.common.util.page.Page;
+import com.duowan.common.util.page.PageQuery;
+import com.duowan.common.web.scope.Flash;
+
+import ${basepackage}.model.*;
+import ${basepackage}.dao.*;
+import ${basepackage}.service.*;
+import ${basepackage}.query.*;
+import ${basepackage}.*;
+

@@ -1,0 +1,5 @@
+<#macro generateArgumentsWithRandomValue columns>
+<#compress>
+<#list columns as column>new ${table.pkColumn.javaType}("1")<#if column_has_next>,</#if></#list>
+</#compress>
+</#macro>

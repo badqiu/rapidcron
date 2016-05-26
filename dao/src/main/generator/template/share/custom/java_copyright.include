@@ -1,0 +1,6 @@
+/*
+ * Copyright [duowan.com]
+ * Web Site: http://www.duowan.com
+ * Since 2005 <#if now??>- ${now?string('yyyy')}</#if>
+ */
+

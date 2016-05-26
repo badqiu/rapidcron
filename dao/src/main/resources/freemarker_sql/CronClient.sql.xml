@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+
+<properties>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<entry key="cronClient.columns">
+		<![CDATA[
+        client_id ,hostname ,ip ,remarks ,run_user ,cron_content ,client_status ,operator ,create_time ,update_time 
+		]]>
+	</entry>
+	
+    <entry key="cronClient.insert" >
+    	<![CDATA[
+        INSERT INTO cron_client (
+        	client_id ,
+        	hostname ,
+        	ip ,
+        	remarks ,
+        	run_user ,
+        	cron_content ,
+        	client_status ,
+        	operator ,
+        	create_time ,
+        	update_time 
+        ) VALUES (
+        	:clientId ,
+        	:hostname ,
+        	:ip ,
+        	:remarks ,
+        	:runUser ,
+        	:cronContent ,
+        	:clientStatus ,
+        	:operator ,
+        	:createTime ,
+        	:updateTime 
+        )
+    	]]>
+    </entry>
+
+    <entry key="cronClient.update" >
+    	<![CDATA[
+        UPDATE cron_client SET
+	        hostname = :hostname ,
+	        ip = :ip ,
+	        remarks = :remarks ,
+	        run_user = :runUser ,
+	        cron_content = :cronContent ,
+	        client_status = :clientStatus ,
+	        operator = :operator ,
+	        create_time = :createTime ,
+	        update_time = :updateTime 
+        WHERE 
+	        client_id = :clientId 
+    	]]>
+    </entry>
+
+    <entry key="cronClient.delete">
+    	<![CDATA[
+        DELETE FROM cron_client WHERE
+        client_id = :clientId 
+    	]]>
+    </entry>
+    
+    <entry key="cronClient.getById">
+		<![CDATA[
+	    SELECT <#include  "cronClient.columns">
+	        FROM cron_client 
+	        WHERE 
+		        client_id = :clientId 
+		]]>
+    </entry>
+
+	<entry key="cronClient.findPage.where">
+		<![CDATA[
+	       <#if clientId?? >
+	            and client_id = :clientId
+	       </#if>
+	       
+	       <#if hostname?? >
+	            and hostname = :hostname
+	       </#if>
+	       
+	       <#if ip?? >
+	            and ip = :ip
+	       </#if>
+	       
+	       <#if remarks?? >
+	            and remarks = :remarks
+	       </#if>
+	       
+	       <#if runUser?? >
+	            and run_user = :runUser
+	       </#if>
+	       
+	       <#if cronContent?? >
+	            and cron_content = :cronContent
+	       </#if>
+	       
+	       <#if clientStatus?? >
+	            and client_status = :clientStatus
+	       </#if>
+	       
+	       <#if operator?? >
+	            and operator = :operator
+	       </#if>
+	       
+	       
+	       <#if createTimeBegin?? >
+	            and create_time >= createTimeBegin
+	       </#if>
+	       <#if createTimeEnd?? >
+	            and create_time <= :createTimeEnd
+	       </#if>
+	       
+	       
+	       <#if updateTimeBegin?? >
+	            and update_time >= updateTimeBegin
+	       </#if>
+	       <#if updateTimeEnd?? >
+	            and update_time <= :updateTimeEnd
+	       </#if>
+	       
+     	]]>
+	</entry>
+	 
+    <entry key="cronClient.findPage.count">
+    	<![CDATA[
+        SELECT count(*) 
+        FROM cron_client 
+        WHERE 1=1
+        <#include "cronClient.findPage.where">
+    	]]>    
+    </entry>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <entry key="cronClient.findPage">
+		<![CDATA[
+    	SELECT 
+    		<#include "cronClient.columns"> 
+    	FROM cron_client 
+    	WHERE 1=1
+		<#include "cronClient.findPage.where">
+		
+		<#if sortColumns?? >
+			ORDER BY :sortColumns
+		</#if>
+		
+		]]>
+    </entry>
+
+		
+</properties>

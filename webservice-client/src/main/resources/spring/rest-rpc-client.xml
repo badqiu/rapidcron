@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"    default-autowire="byName" default-lazy-init="false">
+
+	<bean name="cronWebService" class="com.github.rapid.common.rpc.client.RPCProxyFactoryBean">
+		<property name="serviceUrl" value="${rapidcron_webservice_url:http://rapidcron.xsj.qinha.com}/rpc/CronWebService" />
+		<property name="serviceInterface" value="com.github.rapidcron.webservice.CronWebService" />
+	</bean> 
+	
+	<bean name="cronWebServiceClient" class="com.github.rapidcron.webservice.client.CronWebServiceClient"/>
+</beans>

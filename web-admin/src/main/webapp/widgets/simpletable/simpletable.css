@@ -1,0 +1,42 @@
+/** grid header sort */
+.table th.sort {
+}
+.table th.sort.desc {
+	background:#c5c5c5 url(images/sort_desc.gif) center right no-repeat
+}
+.table th.sort.asc {
+	background:#c5c5c5 url(images/sort_asc.gif) center right no-repeat
+}
+
+/** mouse hove over sort header */
+.table .tableHeaderSortHover {
+	background-color: #f5f5f5 !important;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.fixed-table-pagination div.pagination,
+.fixed-table-pagination .pagination-detail {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.fixed-table-pagination div.pagination .pagination {
+    margin: 0;
+}
+
+.fixed-table-pagination .pagination a {
+    padding: 6px 12px;
+    line-height: 1.428571429;
+}
+
+.fixed-table-pagination .pagination-info {
+    line-height: 34px;
+    margin-right: 5px;
+}
+
+.fixed-table-pagination .page-list {
+    display: inline-block;
+}
+

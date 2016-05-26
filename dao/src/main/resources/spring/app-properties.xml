@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xmlns:lang="http://www.springframework.org/schema/lang"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+           http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+           http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.0.xsd"
+	   default-autowire="byName" default-lazy-init="false">
+
+    <!-- 应用属性文件读入 -->
+    <bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    	<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<!-- 统一配置文件,通过JAVA CLASSPATH变量配置在外部目录中 -->
+				<!-- 默认配置 -->
+				<value>classpath*:app-default.properties</value> 
+				<!-- eclipse开发中的本地配置 -->
+				<value>classpath*:app-local.properties</value> 
+				<!-- 不同环境中的配置,APP_MODE值为:prod,dev,test ... 等值 -->
+				<value>file:/etc/rapidcron/app.properties</value>
+				<value>file:/data/app/rapidcron/config/${APP_MODE:dev}/app.properties</value> 
+				<value>file:/${user.home}/rapidcron/app.properties</value> 
+			</list>
+		</property>
+    </bean>
+
+	<!-- PropertyPlaceholderConfigurer,用于spring ${placeholder}的解析 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="properties" ref="applicationProperties"/>
+	</bean>
+
+</beans>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+
+	  <cron_task_log 
+			client_id='096' 
+			exec_time='2016-05-24 11:55:11.617' 
+			cron_expr='CronExpr792' 
+			tasklog='Tasklog764' 
+			exit_code='533' 
+	  />	
+  
+</dataset>

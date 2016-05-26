@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	修改说明:
+	1.修改<context:component-scan以确定要加载的controller,默认为com.**.controller
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
+    default-autowire="byName"   >
+
+	<!-- 自动搜索@Controller标注的类 -->
+	<context:component-scan base-package="com.github.rapidcron.**.controller"/>
+	
+	<!-- 相关静态资源映射 -->
+	<!-- 
+	<mvc:resources location="/favicon.ico" mapping="/favicon.ico"/>  
+	<mvc:resources location="/img" mapping="/img/**"/>  
+	<mvc:resources location="/js/" mapping="/js/**"/>  
+	<mvc:resources location="/css/" mapping="/css/**"/>  
+	<mvc:resources location="/widgets/" mapping="/widgets/**"/>  
+	 -->  
+	
+	<!-- 开启支持@NumberFormat @DateTimeFormat @Valid标注 ,@DateTimeFormat用于bean 日期属性的格式化,请查看: http://static.springsource.org/spring/docs/3.0.2.RELEASE/spring-framework-reference/htmlsingle/spring-framework-reference.html#mvc-config-->
+	<!-- annotation-driven与ConventionAnnotationHandlerMapping有冲突,只能选其一,原因： spring3.1 RequestMappingHandlerMapping与 ConventionAnnotationHandlerMapping存在冲突 -->
+	<!--     <mvc:annotation-driven validator="validator"/> -->
+	
+	<!-- 
+		约定大于配置的HandlerMapping, 为RequestMapping标注的method 生成默认path 
+		示例:  UserController.create() => /create.do 的url默认映射
+	-->
+	<bean class="com.github.rapid.common.web.mvc.ConventionRequestMappingHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<bean class="com.github.rapidcron.common.springmvc.interceptor.SharedRenderVariableInterceptor"/>
+				<!-- 识别用户的设备类型 -->
+				<bean class="org.springframework.mobile.device.DeviceResolverHandlerInterceptor" />
+				<!-- 可以通过site_preference=mobile指定访问移动设备的网页 -->
+				<bean class="org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor" />
+			</list>
+		</property>
+	</bean>
+	<!-- 与RequestMappingHandlerMapping配置使用的 HandlerAdapter -->    
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/> 
+	
+    <!-- ViewResolver -->
+ 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+ 	
+	<bean class="org.springframework.mobile.device.view.LiteDeviceDelegatingViewResolver">
+		<constructor-arg>
+			<!-- jsp ViewResolver -->
+		    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		        <property name="prefix" value="/pages"/>
+		        <property name="suffix" value=".jsp"/>
+		    </bean>
+		</constructor-arg>
+		<property name="mobileSuffix" value=".mobile"/>
+		<property name="tabletSuffix" value=".tablet"/>
+		<property name="enableFallback" value="true" />
+		<property name="order" value="99999"/>
+	</bean>
+	
+	<bean class="org.springframework.mobile.device.view.LiteDeviceDelegatingViewResolver">
+		<constructor-arg>
+		    <bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		        <property name="exposeSpringMacroHelpers" value="true"/>
+		    	<property name="contentType" value="text/html; charset=utf-8"/>
+		        <property name="cache" value="false" />
+		        <property name="prefix" value=""/>
+		        <property name="suffix" value=".ftl" />
+		        <property name="order" value="0"/>
+   			</bean>
+		</constructor-arg>
+		<property name="mobileSuffix" value=".mobile"/>
+		<property name="tabletSuffix" value=".tablet"/>
+		<property name="enableFallback" value="true" />
+		<property name="order" value="0"/>
+	</bean>
+
+	<!-- 配置freeMarker的模板路径 -->
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/freemarker/" />
+		<property name="defaultEncoding" value="UTF-8"/>
+		<property name="freemarkerVariables">
+			<map>
+			</map>
+		</property>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">1000</prop>
+			</props>
+		</property>
+	</bean>
+			    
+    <!-- Mapping exception to the handler view -->
+    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+            	<prop key="java.lang.SecurityException">/commons/error</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!-- 支持上传文件 -->  
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- set the max upload size 2MB -->
+		<property name="maxUploadSize">
+			<value>1024000000</value>
+		</property>
+		<property name="defaultEncoding">
+			<value>utf-8</value>
+		</property>
+		<property name="maxInMemorySize">
+			<value>10240</value>
+		</property>
+	</bean>
+        
+</beans>

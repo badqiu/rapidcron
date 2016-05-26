@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+
+<properties>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<entry key="cronTaskLog.columns">
+		<![CDATA[
+        client_id ,exec_time ,cron_expr ,tasklog ,exit_code 
+		]]>
+	</entry>
+	
+    <entry key="cronTaskLog.insert" >
+    	<![CDATA[
+        INSERT INTO cron_task_log (
+        	client_id ,
+        	exec_time ,
+        	cron_expr ,
+        	tasklog ,
+        	exit_code 
+        ) VALUES (
+        	:clientId ,
+        	:execTime ,
+        	:cronExpr ,
+        	:tasklog ,
+        	:exitCode 
+        )
+    	]]>
+    </entry>
+
+    <entry key="cronTaskLog.update" >
+    	<![CDATA[
+        UPDATE cron_task_log SET
+	        tasklog = :tasklog ,
+	        exit_code = :exitCode 
+        WHERE 
+	        client_id = :clientId  AND 
+	        exec_time = :execTime  AND 
+	        cron_expr = :cronExpr 
+    	]]>
+    </entry>
+
+    <entry key="cronTaskLog.delete">
+    	<![CDATA[
+        DELETE FROM cron_task_log WHERE
+        client_id = :clientId  AND 
+        exec_time = :execTime  AND 
+        cron_expr = :cronExpr 
+    	]]>
+    </entry>
+    
+    <entry key="cronTaskLog.getById">
+		<![CDATA[
+	    SELECT <#include  "cronTaskLog.columns">
+	        FROM cron_task_log 
+	        WHERE 
+		        client_id = :clientId  AND 
+		        exec_time = :execTime  AND 
+		        cron_expr = :cronExpr 
+		]]>
+    </entry>
+
+	<entry key="cronTaskLog.findPage.where">
+		<![CDATA[
+	       <#if clientId?? >
+	            and client_id = :clientId
+	       </#if>
+	       
+	       
+	       <#if execTimeBegin?? >
+	            and exec_time >= execTimeBegin
+	       </#if>
+	       <#if execTimeEnd?? >
+	            and exec_time <= :execTimeEnd
+	       </#if>
+	       
+	       <#if cronExpr?? >
+	            and cron_expr = :cronExpr
+	       </#if>
+	       
+	       <#if tasklog?? >
+	            and tasklog = :tasklog
+	       </#if>
+	       
+	       <#if exitCode?? >
+	            and exit_code = :exitCode
+	       </#if>
+	       
+     	]]>
+	</entry>
+	 
+    <entry key="cronTaskLog.findPage.count">
+    	<![CDATA[
+        SELECT count(*) 
+        FROM cron_task_log 
+        WHERE 1=1
+        <#include "cronTaskLog.findPage.where">
+    	]]>    
+    </entry>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <entry key="cronTaskLog.findPage">
+		<![CDATA[
+    	SELECT 
+    		<#include "cronTaskLog.columns"> 
+    	FROM cron_task_log 
+    	WHERE 1=1
+		<#include "cronTaskLog.findPage.where">
+		
+		<#if sortColumns?? >
+			ORDER BY :sortColumns
+		</#if>
+		
+		]]>
+    </entry>
+
+		
+</properties>
