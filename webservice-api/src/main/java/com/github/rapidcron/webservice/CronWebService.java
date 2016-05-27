@@ -4,15 +4,15 @@ import com.github.rapidcron.webservice.dto.CronTaskLogDTO;
 
 public interface CronWebService {
 
-	public void heartbeat(String ip);
+	public void heartbeat(String mid);
 	
 	public String getCronContentByHostname(String hostname);
 	
-	public String getCronContentByIP(String ip);
+	public String getCronContentByMid(String mid);
 	
 	public String getIp();
 	
-	public void online(String hostname,String ip,String runUser);
+	public void online(String hostname,String ip,String runUser,String mid);
 	
 	public void log(CronTaskLogDTO obj);
 	

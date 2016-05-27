@@ -15,16 +15,16 @@ public class CronWebServiceClient {
 		this.cronWebService = cronWebService;
 	}
 
-	public void heartbeat(String ip) {
-		cronWebService.heartbeat(ip);
+	public void heartbeat(String mid) {
+		cronWebService.heartbeat(mid);
 	}
 
 	public String getCronContentByHostname(String hostname) {
 		return cronWebService.getCronContentByHostname(hostname);
 	}
 
-	public String getCronContentByIP(String ip) {
-		return cronWebService.getCronContentByIP(ip);
+	public String getCronContentByMid(String mid) {
+		return cronWebService.getCronContentByMid(mid);
 	}
 
 	public String getIp() {
@@ -34,8 +34,8 @@ public class CronWebServiceClient {
 		return ip;
 	}
 
-	public void online(String hostname, String ip, String runUser) {
-		cronWebService.online(hostname, ip, runUser);
+	public void online(String hostname, String ip, String runUser,String mid) {
+		cronWebService.online(hostname, ip, runUser,mid);
 	}
 
 	public void log(CronTaskLogDTO obj) {

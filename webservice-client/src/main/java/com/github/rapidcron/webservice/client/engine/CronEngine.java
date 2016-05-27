@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.github.rapidcron.common.util.SystemUtil;
 import com.github.rapidcron.webservice.client.CronWebServiceClient;
 import com.github.rapidcron.webservice.util.ThreadUtil;
 
@@ -31,7 +32,8 @@ public class CronEngine {
 		String hostname = InetAddress.getLocalHost().getHostName();
 		String ip = cronWebServiceClient.getIp();
 		String runUser = System.getProperty("user.name");
-		cronWebServiceClient.online(hostname, ip, runUser);
+		String mid = SystemUtil.getDeviceId();
+		cronWebServiceClient.online(hostname, ip, runUser,mid);
 	}
 
 	private void startCronRunner() throws Exception, InterruptedException {
@@ -63,10 +65,10 @@ public class CronEngine {
 						ThreadUtil.sleepSeconds(5);
 					}
 				}
-				String ip = cronWebServiceClient.getIp();
+				String mid = SystemUtil.getDeviceId();
 				while(true) {
 					try {
-						cronWebServiceClient.heartbeat(ip);
+						cronWebServiceClient.heartbeat(mid);
 					}catch(Exception e) {
 						e.printStackTrace();
 					}finally {

@@ -15,6 +15,7 @@ import com.github.rapidcron.dao.CronClientDao;
 
 
 
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Date;
@@ -51,7 +52,7 @@ public class CronClientDaoImpl extends BaseSpringJdbcDao implements CronClientDa
 	
 	private RowMapper<CronClient> entityRowMapper = new BeanPropertyRowMapper<CronClient>(getEntityClass());
 	
-	static final private String COLUMNS = "client_id,hostname,ip,remarks,run_user,cron_content,client_status,operator,create_time,update_time,last_hearbeat_time";
+	static final private String COLUMNS = "client_id,hostname,ip,remarks,run_user,cron_content,client_status,operator,create_time,update_time,last_hearbeat_time,mid";
 	static final private String SELECT_FROM = "select " + COLUMNS + " from cron_client";
 	
 	@Override
@@ -70,9 +71,9 @@ public class CronClientDaoImpl extends BaseSpringJdbcDao implements CronClientDa
 	
 	public void insert(CronClient entity) {
 		String sql = "insert into cron_client " 
-			 + " (client_id,hostname,ip,remarks,run_user,cron_content,client_status,operator,create_time,update_time,last_hearbeat_time) " 
+			 + " (client_id,hostname,ip,remarks,run_user,cron_content,client_status,operator,create_time,update_time,last_hearbeat_time,mid) " 
 			 + " values "
-			 + " (:clientId,:hostname,:ip,:remarks,:runUser,:cronContent,:clientStatus,:operator,:createTime,:updateTime,:lastHearbeatTime)";
+			 + " (:clientId,:hostname,:ip,:remarks,:runUser,:cronContent,:clientStatus,:operator,:createTime,:updateTime,:lastHearbeatTime,:mid)";
 		insertWithGeneratedKey(entity,sql); //for sqlserver:identity and mysql:auto_increment
 		
 		//其它主键生成策略
@@ -84,17 +85,17 @@ public class CronClientDaoImpl extends BaseSpringJdbcDao implements CronClientDa
 	
 	public int update(CronClient entity) {
 		String sql = "update cron_client set "
-					+ " hostname=:hostname,ip=:ip,remarks=:remarks,run_user=:runUser,cron_content=:cronContent,client_status=:clientStatus,operator=:operator,create_time=:createTime,update_time=:updateTime,last_hearbeat_time=:lastHearbeatTime "
+					+ " hostname=:hostname,ip=:ip,remarks=:remarks,run_user=:runUser,cron_content=:cronContent,client_status=:clientStatus,operator=:operator,create_time=:createTime,update_time=:updateTime,last_hearbeat_time=:lastHearbeatTime,mid=:mid "
 					+ " where  client_id = :clientId ";
 		return getNamedParameterJdbcTemplate().update(sql, new BeanPropertySqlParameterSource(entity));
 	}
 
 	@Override
-	public int updateLastHearbeatTime(String ip) {
+	public int updateLastHearbeatTime(String mid) {
 		String sql = "update cron_client set "
 				+ " last_hearbeat_time=? "
-				+ " where  ip = ? ";
-		return getJdbcTemplate().update(sql,new Date(),ip);
+				+ " where  mid = ? ";
+		return getJdbcTemplate().update(sql,new Date(),mid);
 	}
 	
 	public int deleteById(long clientId) {
@@ -163,6 +164,12 @@ public class CronClientDaoImpl extends BaseSpringJdbcDao implements CronClientDa
 	public CronClient getByIP(String ip) {
 		String sql = SELECT_FROM + " where  ip = ? ";
 		return (CronClient)DataAccessUtils.singleResult(getJdbcTemplate().query(sql, getEntityRowMapper(),ip));
+	}
+
+	@Override
+	public CronClient getByMid(String mid) {
+		String sql = SELECT_FROM + " where  mid = ? ";
+		return (CronClient)DataAccessUtils.singleResult(getJdbcTemplate().query(sql, getEntityRowMapper(),mid));
 	}
 
 

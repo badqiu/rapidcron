@@ -2,6 +2,8 @@ package com.github.rapidcron.webservice.dto;
 
 public class CronTaskLogDTO {
 	
+	private String mid;
+	
 	private String ip;
 	
 	/**
@@ -28,6 +30,14 @@ public class CronTaskLogDTO {
 	 * 执行时长
 	 */
 	private long execDuration;
+
+	public String getMid() {
+		return mid;
+	}
+
+	public void setMid(String mid) {
+		this.mid = mid;
+	}
 
 	public String getIp() {
 		return ip;

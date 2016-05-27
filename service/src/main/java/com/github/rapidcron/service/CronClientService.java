@@ -61,6 +61,8 @@ public interface CronClientService {
 
 	public CronClient getByIP(String ip);
 
-	public void updateLastHearbeatTime(String ip);
+	public void updateLastHearbeatTime(String mid);
+
+	public CronClient getByMid(String mid);
     
 }

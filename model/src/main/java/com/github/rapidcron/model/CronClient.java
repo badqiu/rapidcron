@@ -97,6 +97,10 @@ public class CronClient  implements java.io.Serializable{
 	private java.util.Date updateTime;
 	
 	private Date lastHearbeatTime;
+	/**
+	 * 机器ID
+	 */
+	private String mid;
 	//columns END
 
 	public CronClient(){
@@ -304,6 +308,14 @@ public class CronClient  implements java.io.Serializable{
 
 	public void setLastHearbeatTime(Date lastHearbeatTime) {
 		this.lastHearbeatTime = lastHearbeatTime;
+	}
+	
+	public String getMid() {
+		return mid;
+	}
+
+	public void setMid(String mid) {
+		this.mid = mid;
 	}
 
 	public String toString() {

@@ -113,6 +113,10 @@ public class CronClientServiceImpl implements CronClientService {
     
         /**可以在此检查只有创建才需要的特殊检查 */
         public void checkCreateCronClient(CronClient cronClient) {
+        	Assert.hasText(cronClient.getMid(),"mid must be not empty");
+        	Assert.hasText(cronClient.getIp(),"ip must be not empty");
+        	Assert.hasText(cronClient.getHostname(),"hostname must be not empty");
+        	
             checkCronClient(cronClient);
         }
         
@@ -136,7 +140,12 @@ public class CronClientServiceImpl implements CronClientService {
 	}
 
 	@Override
-	public void updateLastHearbeatTime(String ip) {
-		cronClientDao.updateLastHearbeatTime(ip);
+	public void updateLastHearbeatTime(String mid) {
+		cronClientDao.updateLastHearbeatTime(mid);
+	}
+
+	@Override
+	public CronClient getByMid(String mid) {
+		return cronClientDao.getByMid(mid);
 	}
 }

@@ -67,7 +67,7 @@
 				<td>${row.cronTaskLog.execDuration/1000}</td>
 				<td class="exec_result_${row.cronTaskLog.execSuccess}">${row.cronTaskLog.exitCode}</td>
 				<td>
-					<a class="btn btn-primary btn-xs" href="${ctx}/rapidcron/crontasklog/index.do?clientId=${row.cronTaskLog.clientId}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查看日志</a>&nbsp;&nbsp;
+					<a class="btn btn-primary btn-xs" href="${ctx}/rapidcron/crontasklog/index.do?clientId=${row.cronTaskLog.clientId}&cronExpr=<c:out value="${row.cronTaskLog.cronExpr}" escapeXml="true"></c:out>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查看日志</a>&nbsp;&nbsp;
 					<a class="btn btn-primary btn-xs" href="${ctx}/rapidcron/cronclient/execCron.do?cron=${row.crontab.cron}"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> #强制执行</a>&nbsp;&nbsp;
 				</td>
 			  </tr>

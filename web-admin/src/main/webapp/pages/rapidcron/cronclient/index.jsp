@@ -95,8 +95,10 @@
 				<th sortColumn="ip" >IP</th>
 				<th sortColumn="remarks" >备注</th>
 				<th sortColumn="run_user" >运行用户</th>
+				<th>机器ID</th>
 <!-- 				<th sortColumn="cron_content" >cron内容</th> -->
-				<th sortColumn="client_status" >在线状态</th>
+				<th>在线状态</th>
+				<th>cron</th>
 <!-- 				<th sortColumn="operator" >操作人员</th> -->
 <!-- 				<th sortColumn="create_time" >创建时间</th> -->
 <!-- 				<th sortColumn="update_time" >最后更新时间</th> -->
@@ -113,8 +115,10 @@
 				<td><c:out value='${row.ip}'/>&nbsp;</td>
 				<td><c:out value='${row.remarks}'/>&nbsp;</td>
 				<td><c:out value='${row.runUser}'/>&nbsp;</td>
+				<td><c:out value='${row.mid}'/>&nbsp;</td>
 <%-- 				<td><c:out value='${row.cronContent}'/>&nbsp;</td> --%>
 				<td class="online_${row.online}">${row.online}</td>
+				<td title="<c:out value='${row.cronContent}'/>"><button class="btn btn-sm btn-success">查看</button></td>
 <%-- 				<td><c:out value='${row.operator}'/>&nbsp;</td> --%>
 <%-- 				<td><fmt:formatDate value='${row.createTime}' pattern='yyyy-MM-dd'/>&nbsp;</td> --%>
 <%-- 				<td><fmt:formatDate value='${row.updateTime}' pattern='yyyy-MM-dd'/>&nbsp;</td> --%>

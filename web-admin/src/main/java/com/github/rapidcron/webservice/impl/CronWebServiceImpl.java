@@ -32,14 +32,8 @@ public class CronWebServiceImpl implements CronWebService{
 	}
 
 	@Override
-	public void heartbeat(String ip) {
-		if(StringUtils.isBlank(ip)) {
-			ip = RPCContext.getRequest().getRemoteHost();
-		}
-//		CronClient cronClient = cronClientService.getByIP(ip);
-//		Assert.notNull(cronClient,"not found cronClient by ip:"+ip);
-//		cronClient.setLastHearbeatTime(new Date());
-		cronClientService.updateLastHearbeatTime(ip);
+	public void heartbeat(String mid) {
+		cronClientService.updateLastHearbeatTime(mid);
 	}
 
 	@Override
@@ -49,8 +43,8 @@ public class CronWebServiceImpl implements CronWebService{
 	}
 
 	@Override
-	public String getCronContentByIP(String ip) {
-		CronClient client = cronClientService.getByIP(ip);
+	public String getCronContentByMid(String mid) {
+		CronClient client = cronClientService.getByMid(mid);
 		return client.getCronContent();
 	}
 
@@ -60,9 +54,9 @@ public class CronWebServiceImpl implements CronWebService{
 	}
 
 	@Override
-	public void online(String hostname, String ip, String runUser) {
+	public void online(String hostname, String ip, String runUser,String mid) {
 //		String hostIp = RPCContext.getRequest().getRemoteHost();
-		CronClient cronClient = cronClientService.getByIP(ip);
+		CronClient cronClient = cronClientService.getByMid(mid);
 		if(cronClient == null) {
 			cronClient = new CronClient();
 			cronClient.setHostname(hostname);
@@ -70,6 +64,7 @@ public class CronWebServiceImpl implements CronWebService{
 			cronClient.setRunUser(runUser);
 			cronClient.setLastHearbeatTime(new Date());
 			cronClient.setClientStatus(ClientStatus.ONLINE.getCode());
+			cronClient.setMid(mid);
 			cronClientService.create(cronClient);
 			return;
 		}
@@ -81,7 +76,7 @@ public class CronWebServiceImpl implements CronWebService{
 
 	@Override
 	public void log(CronTaskLogDTO obj) {
-		CronClient client = cronClientService.getByIP(obj.getIp());
+		CronClient client = cronClientService.getByMid(obj.getMid());
 		CronTaskLog tasklog = new CronTaskLog();
 		PropertyUtils.copyProperties(tasklog, obj);
 		tasklog.setClientId(client.getClientId());

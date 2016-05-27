@@ -37,7 +37,9 @@ public interface CronClientDao {
 	public CronClient getByHostname(String hostname);
 
 	public CronClient getByIP(String ip);
+	
+	public CronClient getByMid(String mid);
 
-	public int updateLastHearbeatTime(String ip);	
+	public int updateLastHearbeatTime(String mid);	
 	
 }

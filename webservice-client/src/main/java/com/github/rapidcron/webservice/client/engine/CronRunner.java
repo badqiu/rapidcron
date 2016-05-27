@@ -19,6 +19,7 @@ import org.springframework.scheduling.support.CronTrigger;
 
 import com.github.rapidcron.common.util.CronUtil;
 import com.github.rapidcron.common.util.Crontab;
+import com.github.rapidcron.common.util.SystemUtil;
 import com.github.rapidcron.webservice.client.CronWebServiceClient;
 import com.github.rapidcron.webservice.dto.CronTaskLogDTO;
 import com.github.rapidcron.webservice.util.cmd.CmdRunner;
@@ -57,7 +58,7 @@ public class CronRunner implements InitializingBean{
 		try {
 			return getCronContentFromRemote();
 		}catch(Exception e) {
-			logger.warn("error getCronContentFromRemote,ignore,try read from local");
+			logger.warn("error getCronContentFromRemote,ignore,try read from local",e);
 			return getCronContentFromLocalFile();
 		}
 	}
@@ -81,8 +82,8 @@ public class CronRunner implements InitializingBean{
 	}
 
 	private String getCronContentFromRemote() {
-		String ip = cronWebServiceClient.getIp();
-		String cronContent = cronWebServiceClient.getCronContentByIP(ip);
+		String mid = SystemUtil.getDeviceId();
+		String cronContent = cronWebServiceClient.getCronContentByMid(mid);
 		return cronContent;
 	}
 	
@@ -139,6 +140,7 @@ public class CronRunner implements InitializingBean{
 				dto.setExitCode(exitCode);
 				dto.setExecDuration(execDuration);
 				dto.setTasklog(tasklog);
+				dto.setMid(SystemUtil.getDeviceId());
 				cronWebServiceClient.log(dto);
 			}
 		});
