@@ -12,4 +12,13 @@
   		<scope>runtime</scope>
   	</dependencySet>
   </dependencySets>
+  
+  <fileSets>
+  	<fileSet>
+  		<directory>shell</directory>
+  		<includes>
+  			<include>*</include>
+  		</includes>
+  	</fileSet>
+  </fileSets>
 </assembly>
