@@ -54,16 +54,12 @@ public class CronRunner implements InitializingBean{
 //	}
 
 	private String getCronContent() throws IOException {
-		String cronContent = null;
 		try {
-			cronContent = getCronContentFromRemote();
+			return getCronContentFromRemote();
 		}catch(Exception e) {
-			logger.info("error getCronContentFromRemote,ignore,try read from local");
+			logger.warn("error getCronContentFromRemote,ignore,try read from local");
+			return getCronContentFromLocalFile();
 		}
-		if(StringUtils.isBlank(cronContent)) {
-			cronContent = getCronContentFromLocalFile();
-		}
-		return cronContent;
 	}
 
 	private void updateLocalCronFile(String cronContent) throws IOException {
