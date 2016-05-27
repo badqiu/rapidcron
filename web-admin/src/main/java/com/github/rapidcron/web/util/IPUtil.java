@@ -1,4 +1,4 @@
-package com.github.rapidcron.common.util;
+package com.github.rapidcron.web.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
