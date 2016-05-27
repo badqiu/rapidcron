@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.rapid.common.beanutils.PropertyUtils;
 import com.github.rapid.common.rpc.server.RPCContext;
+import com.github.rapidcron.common.util.IPUtil;
 import com.github.rapidcron.enums.ClientStatus;
 import com.github.rapidcron.model.CronClient;
 import com.github.rapidcron.model.CronTaskLog;
@@ -55,7 +56,7 @@ public class CronWebServiceImpl implements CronWebService{
 
 	@Override
 	public String getIp() {
-		return RPCContext.getRequest().getRemoteHost();
+		return IPUtil.getRealIp(RPCContext.getRequest());
 	}
 
 	@Override
