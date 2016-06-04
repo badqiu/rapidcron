@@ -17,4 +17,11 @@ public class CronUtilTest {
 		crontab = CronUtil.parseCronLine(null);
 	}
 
+	@Test
+	public void test_parse_comment() {
+		Crontab crontab = CronUtil.parseCronLine("#*/5  1/3   * * * /bin/bash /data/app/offline_analyse/shell/flow.sh -DflowId=stage2mysql > /tmp/stage2myql.log");
+		assertEquals(null,crontab);
+		
+		crontab = CronUtil.parseCronLine(null);
+	}
 }

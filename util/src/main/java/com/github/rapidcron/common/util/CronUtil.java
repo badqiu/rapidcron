@@ -21,9 +21,14 @@ public class CronUtil {
 			for(String line : lines) {
 				if(StringUtils.isBlank(line))
 					continue;
+				if(line.trim().startsWith("#")) {
+					continue;
+				}
 				
 				Crontab crontab = parseCronLine(line);
-				result.add(crontab);
+				if(crontab != null) {
+					result.add(crontab);
+				}
 			}
 			return result;
 		}catch(Exception e) {
@@ -34,6 +39,7 @@ public class CronUtil {
 	// ([\w\*]+\s+[\w\*]+\s+[\w\*]+\s+[\w\*]+\s+[\w\*]+\s+)(.*);
 	public static Crontab parseCronLine(String line) {
 		if(StringUtils.isBlank(line)) return null;
+		if(line.trim().startsWith("#")) return null;
 		
 		String trimLine = line.trim();
 		String regex = "([\\w\\*/]+\\s+[\\w\\*/]+\\s+[\\w\\*/]+\\s+[\\w\\*/]+\\s+[\\w\\*/]+\\s+)(.*)";

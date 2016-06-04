@@ -2,23 +2,20 @@ package com.github.rapidcron.common.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 public class SystemUtil {
 
+	private static Logger logger = LoggerFactory.getLogger(SystemUtil.class);
+	
 	private static String deviceId = null;
 	
 	public synchronized static String getDeviceId()  {
