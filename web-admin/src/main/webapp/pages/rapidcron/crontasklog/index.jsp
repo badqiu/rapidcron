@@ -88,14 +88,14 @@
 			  <tr>
 				<th style="width:1px;"> </th>
 				<!-- 排序时为th增加sortColumn即可,new SimpleTable('sortColumns')会为tableHeader自动增加排序功能; -->
-				<th sortColumn="id" >ID</th>
-				<th sortColumn="client_id" >客户端ID</th>
+<!-- 				<th sortColumn="id" >ID</th> -->
+<!-- 				<th sortColumn="client_id" >客户端ID</th> -->
 				<th sortColumn="exec_time" >执行时间</th>
 				<th sortColumn="exec_end_time" >执行结束时间</th>
 				<th sortColumn="cron_expr" >cron表达式</th>
 				<th sortColumn="tasklog" >任务日志</th>
 				<th sortColumn="exit_code" >执行结束退出码</th>
-				<th sortColumn="exec_duration" >执行时长</th>
+				<th sortColumn="exec_duration" >执行时长(秒)</th>
 				<th>操作</th>
 			  </tr>
 		  </thead>
@@ -105,14 +105,14 @@
 			  <tr>
 				<td>${page.paginator.startRow + status.index}</td>
 				
-				<td><c:out value='${row.id}'/>&nbsp;</td>
-				<td><c:out value='${row.clientId}'/>&nbsp;</td>
-				<td><fmt:formatDate value='${row.execTime}' pattern='yyyy-MM-dd'/>&nbsp;</td>
-				<td><fmt:formatDate value='${row.execEndTime}' pattern='yyyy-MM-dd'/>&nbsp;</td>
+<%-- 				<td><c:out value='${row.id}'/>&nbsp;</td> --%>
+<%-- 				<td><c:out value='${row.clientId}'/>&nbsp;</td> --%>
+				<td><fmt:formatDate value='${row.execTime}' pattern='yyyy-MM-dd HH:dd'/>&nbsp;</td>
+				<td><fmt:formatDate value='${row.execEndTime}' pattern='yyyy-MM-dd HH:dd'/>&nbsp;</td>
 				<td><c:out value='${row.cronExpr}'/>&nbsp;</td>
 				<td><c:out value='${row.tasklog}'/>&nbsp;</td>
 				<td><c:out value='${row.exitCode}'/>&nbsp;</td>
-				<td><c:out value='${row.execDuration}'/>&nbsp;</td>
+				<td><c:out value='${row.execDuration / 1000.0}'/>&nbsp;</td>
 				
 				<td>
 					<a class="btn btn-primary btn-xs" href="${ctx}/rapidcron/crontasklog/show.do?id=${row.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查看</a>&nbsp;&nbsp;

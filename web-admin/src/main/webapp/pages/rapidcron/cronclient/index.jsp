@@ -90,10 +90,10 @@
 		  <thead>
 			  <tr>
 				<th style="width:1px;"> </th>
+				<th sortColumn="remarks" >备注</th>
 				<!-- 排序时为th增加sortColumn即可,new SimpleTable('sortColumns')会为tableHeader自动增加排序功能; -->
 				<th sortColumn="hostname" >主机名</th>
 				<th sortColumn="ip" >IP</th>
-				<th sortColumn="remarks" >备注</th>
 				<th sortColumn="run_user" >运行用户</th>
 				<th>机器ID</th>
 <!-- 				<th sortColumn="cron_content" >cron内容</th> -->
@@ -111,20 +111,20 @@
 			  <tr>
 				<td>${page.paginator.startRow + status.index}</td>
 				
+				<td><c:out value='${row.remarks}'/>&nbsp;</td>
 				<td><c:out value='${row.hostname}'/>&nbsp;</td>
 				<td><c:out value='${row.ip}'/>&nbsp;</td>
-				<td><c:out value='${row.remarks}'/>&nbsp;</td>
 				<td><c:out value='${row.runUser}'/>&nbsp;</td>
 				<td><c:out value='${row.mid}'/>&nbsp;</td>
 <%-- 				<td><c:out value='${row.cronContent}'/>&nbsp;</td> --%>
 				<td class="online_${row.online}">${row.online}</td>
-				<td title="<c:out value='${row.cronContent}'/>"><button class="btn btn-sm btn-success">查看</button></td>
+				<td title="<c:out value='${row.cronContent}'/>"></td>
 <%-- 				<td><c:out value='${row.operator}'/>&nbsp;</td> --%>
 <%-- 				<td><fmt:formatDate value='${row.createTime}' pattern='yyyy-MM-dd'/>&nbsp;</td> --%>
 <%-- 				<td><fmt:formatDate value='${row.updateTime}' pattern='yyyy-MM-dd'/>&nbsp;</td> --%>
 				
 				<td>
-					<a class="btn btn-primary btn-xs" href="${ctx}/rapidcron/cronclient/show.do?clientId=${row.clientId}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查看</a>&nbsp;&nbsp;
+<%-- 					<a class="btn btn-primary btn-xs" href="${ctx}/rapidcron/cronclient/show.do?clientId=${row.clientId}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查看</a>&nbsp;&nbsp; --%>
 					<a class="btn btn-primary btn-xs" href="${ctx}/rapidcron/cronclient/edit.do?clientId=${row.clientId}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 配置cron</a>&nbsp;&nbsp;
 					<a class="btn btn-primary btn-xs" href="${ctx}/rapidcron/cronclient/clientStatus.do?clientId=${row.clientId}"></span>任务执行状态</a>&nbsp;&nbsp;
 					<a class="btn btn-danger btn-xs" href="${ctx}/rapidcron/cronclient/delete.do?clientId=${row.clientId}" onclick="doRestDelete(this,'你确认删除?');return false;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除</a>
