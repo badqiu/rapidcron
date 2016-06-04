@@ -1,25 +1,27 @@
 package com.github.rapidcron.webservice.client.engine;
 
+import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
+import org.apache.commons.lang.SystemUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.github.rapidcron.common.util.SystemUtil;
 import com.github.rapidcron.webservice.client.CronWebServiceClient;
 import com.github.rapidcron.webservice.util.ThreadUtil;
+import com.github.rapidcron.webservice.util.cmd.ProcessUtil;
 
 public class CronEngine {
 
+	private static Logger logger = LoggerFactory.getLogger(CronEngine.class);
+	
 	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:/spring/*.xml");
 	CronWebServiceClient cronWebServiceClient;
-	private String webServiceUrl = null;
 	public CronEngine() {
 	}
 	
-	public CronEngine(String webServiceUrl) {
-		this.webServiceUrl = webServiceUrl;
-	}
 
 	public void start() throws Exception {
 		cronWebServiceClient = context.getBean(CronWebServiceClient.class);
@@ -28,12 +30,27 @@ public class CronEngine {
 		startCronRunner();
 	}
 
-	private void online() throws UnknownHostException {
+	private void online() throws IOException, InterruptedException {
 		String hostname = InetAddress.getLocalHost().getHostName();
 		String ip = cronWebServiceClient.getIp();
 		String runUser = System.getProperty("user.name");
 		String mid = SystemUtil.getDeviceId();
-		cronWebServiceClient.online(hostname, ip, runUser,mid);
+		String crontab = getUserCrontab();
+		cronWebServiceClient.online(hostname, ip, runUser,mid,crontab);
+	}
+
+
+	private String getUserCrontab() throws IOException, InterruptedException {
+		try {
+			if(!SystemUtils.IS_OS_WINDOWS) {
+				String crontab = ProcessUtil.execCmdForTaskExecResult("crontab -l", Integer.MAX_VALUE).getLog();
+				return crontab;
+			}
+			return null;
+		}catch(Exception e) {
+			logger.warn("error on get user crontab by cmd:crontab -l",e);
+			return null;
+		}
 	}
 
 	private void startCronRunner() throws Exception, InterruptedException {

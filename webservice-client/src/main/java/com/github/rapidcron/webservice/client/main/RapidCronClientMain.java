@@ -7,10 +7,8 @@ public class RapidCronClientMain {
 
 	public static void main(String[] args) throws Exception {
 		JVMUtil.lockFileForOnlyProcess(RapidCronClientMain.class);
-		String webServiceUrl = System.getProperty("rapidcron_webservice_url","http://rapidcron.xsj.qinha.com");
-		CronEngine cronEngine = new CronEngine(webServiceUrl);
+		CronEngine cronEngine = new CronEngine();
 		cronEngine.start();
 	}
-	
 	
 }

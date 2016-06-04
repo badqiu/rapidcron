@@ -1,9 +1,11 @@
 package com.github.rapidcron.webservice.util.cmd;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.TeeOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,4 +84,5 @@ public class CmdRunner implements Runnable {
 	public void onEnd() {
 		execEndTime = new Date();
 	}
+	
 }

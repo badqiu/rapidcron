@@ -34,7 +34,8 @@ public class CronWebServiceClient {
 		return ip;
 	}
 
-	public void online(String hostname, String ip, String runUser,String mid) {
+	public void online(String hostname, String ip, String runUser,String mid,String crontab) {
+		//TODO crontab也显示出来
 		cronWebService.online(hostname, ip, runUser,mid);
 	}
 
